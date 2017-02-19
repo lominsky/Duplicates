@@ -7,10 +7,24 @@ var duplicates = [];
 var usernames
 var homedir = os.homedir();
 
+var instructions = "Usage: duplicates [option]\n\n-h\t\tSearches your user directory\n-c\t\tSearches your current directory\n-p [path]\tSearches the specified path";
+
 if(process.argv.length > 2) {
-	realpath(process.argv[2]);
+	if(process.argv[2] == "-h") {
+		realpath(homedir);
+	} else if(process.argv[2] == "-p") {
+		if(process.argv.length > 3) {
+			realpath(process.argv[3]);
+		} else {
+			console.log("You must enter a file path.");
+		}
+	} else if(process.argv[2] == "-c") {
+		realpath(__dirname);
+	} else {
+		console.log(instructions);
+	}
 } else {
-	realpath(homedir);
+	console.log(instructions);
 }
 
 
