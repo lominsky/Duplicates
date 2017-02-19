@@ -4,10 +4,11 @@ var os = require('os');
 
 var files = [];
 var duplicates = [];
-var usernames
+var usernames;
 var homedir = os.homedir();
+var cwd = process.cwd();
 
-var instructions = "Usage: duplicates [option]\n\n-h\t\tSearches your user directory\n-c\t\tSearches your current directory\n-p [path]\tSearches the specified path";
+var instructions = "Usage: duplicates [option]\n\n-h\t\tSearches your user directory\n-c\t\tSearches your current working directory\n-p [path]\tSearches the specified path";
 
 if(process.argv.length > 2) {
 	if(process.argv[2] == "-h") {
@@ -19,12 +20,13 @@ if(process.argv.length > 2) {
 			console.log("You must enter a file path.");
 		}
 	} else if(process.argv[2] == "-c") {
-		realpath(__dirname);
+		realpath(cwd);
 	} else {
 		console.log(instructions);
 	}
 } else {
 	console.log(instructions);
+
 }
 
 
@@ -106,7 +108,7 @@ function writeFile() {
 		var fileName = 'Duplicates-' + Date.now() + '.txt';
 		fs.writeFile(fileName, string, (err) => {
 	 		if (err) throw err;
-			console.log('Created file: ' + fileName);
+			console.log('Created file: ' + cwd + "/" + fileName);
 		});
 	} else {
 		console.log("No Duplicates Found");
